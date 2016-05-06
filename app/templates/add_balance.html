@@ -1,0 +1,23 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<div class="container col-md-6 col-md-offset-2">
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="alert alert-danger">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/add_balance">
+        {{ form.csrf_token }}
+
+        {{ wtf.form_field(form.email) }}
+        {{ wtf.form_field(form.amount) }}
+
+        <button type="submit" class="btn btn-default">Add Balance</button>
+
+    </form>
+</div>

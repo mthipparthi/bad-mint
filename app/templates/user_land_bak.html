@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block js_files %}
+
+$(document).ready(function(event){
+        $( ".side_click" ).click(function( event ) {
+            event.preventDefault();
+             $('#work_area').empty()
+            var url = $(this).attr("href");
+            $("#work_area").load($(this).attr("href"));
+           });
+   
+   });
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<h2> Welcome {{ current_user.first_name  }} </h2>
+</br>
+
+
+
+<div class="row">
+      <div class="container col-md-3">
+           <table    class="table">
+                <tr>
+                  <td>
+                      <a href="/change_password" class ="side_click">Change Password</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                      <a href="/send_money" class ="side_click">Send Money</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                      <a href="/mark_play_dates" class ="side_click">mark_play_dates</a>
+                  </td>
+                </tr>                
+
+                <tr>
+                  <td>
+                      <a href="/add_balance" class ="side_click">add_balance</a>
+                  </td>
+                </tr>  
+            </table>
+
+      </div>
+
+      <div class="container col-md-9" id="work_area">
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="alert alert-danger">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+
+        <div class="container" id="id_balance">
+           <p> Your balance : {{ balance }} </p>
+        </div>
+        
+        <div class="container col-md-10" id="id_txns">
+          <table  class="table table-font">
+              {% for transaction in transactions %}
+                  <tr>
+                    <td> {{ transaction.create_at }} </td> 
+                    <td> {{ transaction.counter_party }} </td>
+                    <td> {{ transaction.amount }} </td> 
+                    <td> {{ transaction.reason }} </td> 
+                  </tr>
+              {% endfor %}
+          </table>
+        </div>
+
+    
+      </div>
+
+</div>
+
+
+{% endblock %}

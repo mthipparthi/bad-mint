@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+    
+{% block js_files %}
+
+
+
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script>
+  $(function() {
+    $( "#datepicker" ).datepicker();
+  });
+  </script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container col-md-6 col-md-offset-3">
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="alert alert-danger">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="" id="form_id">
+        
+        <p>Date: <input type="text" id="multi2Picker"></p>
+
+        depa <input type="text" id="departure" />
+
+        <input type="submit" value="Select Dates">
+    </form>
+
+    <script>
+    $("#departure").dateDropper();
+    </script>
+</div>
+{% endblock %}
+
+    {% block js_ext %}
+
+ $(function() {
+    $('#multi2Picker').datepick({ 
+    multiSelect: 2, showTrigger: '#calImg'});
+  });
+
+$('#multi2Picker').datepick({ 
+    multiSelect: 2, showTrigger: '#calImg'});
+
+$("#form_id").submit(function( event ) {
+  event.preventDefault();
+  alert( "Hello" );
+  
+});
+
+
+
+
+    {% endblock %}
+

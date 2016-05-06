@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block js_files %}
+
+$(document).ready(function(event){
+        $( ".side_click" ).click(function( event ) {
+            event.preventDefault();
+             $('#work_area').empty()
+            var url = $(this).attr("href");
+            $("#work_area").load($(this).attr("href"));
+           });
+   
+   });
+
+{% endblock %}
+
+
+{% block content %}
+
+
+<h2> Welcome {{ current_user.first_name  }} </h2>
+</br>
+
+
+
+<div class="row">
+      <div class="container col-md-3">
+
+
+           <table    class="table">
+                <tr>
+                  <td>
+                      <a href="/change_password" class="side_click">Change Password</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                      <a href="/send_money" class="side_click">Send Money</a>
+                  </td>
+                </tr>              
+
+                <tr>
+                  <td>
+                      <a href="/add_balance" class="side_click">Add Balance</a>
+                  </td>
+                </tr>  
+            </table>
+
+      </div>
+
+
+      <div class="container col-md-9" id="work_area">
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="alert alert-danger">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+
+
+
+          <div class="container col-md-11">
+            {% for play_date, play_status in user_attendence_list.items() %}
+              <form class="form-inline" role="form" action="/mark_attendence" method="post">
+                <div class="form-group">
+                  <label for="date">Date</label>
+                  <input type="text" class="form-control" id="date" name="date" value="{{ play_date }}" readonly>
+                </div>
+                <div class="form-group">
+                  <label for="indicator">Game?</label>
+
+                  <input type='hidden' value='No' name='indicator'>
+
+                  <label class="radio-inline">
+                        <input type="radio" name="indicator" id="inlineRadio1" value="Yes"  {% if play_status == "Yes" %} checked {% endif %}>Yes
+                  </label>
+                  <label class="radio-inline">
+                        <input type="radio" name="indicator" id="inlineRadio1" value="No"  {% if play_status == "No" %} checked {% endif %}>No
+                  </label>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            {% endfor %}
+          </div>
+
+        <div class="container col-md-11" id="id_balance">
+        <hr/>
+           <p> Your balance : {{ balance }} </p>
+        </div>
+        
+        <div class="container col-md-11" id="id_txns">
+          <table  class="table table-font">
+
+            <thead>
+              <tr>
+                <th>Transaction time</th>
+                <th>Counter party</th>
+                <th>Amount</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% if transactions.count() == 0 %}
+              <tr> 
+                  <td>               
+                    No transactions to display
+                  </td>
+              </tr>
+              {% endif %}
+
+              
+              {% for transaction in transactions %}
+                  <tr>
+                    <td> {{ transaction.create_at }} </td> 
+                    <td> {{ transaction.counter_party }} </td>
+                    <td> {{ transaction.amount }} </td> 
+                    <td> {{ transaction.reason }} </td> 
+                  </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<div class="container col-md-4 col-md-offset-4">
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="alert alert-danger">
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/login">
+        {{ form.csrf_token }}
+        {{ wtf.form_field(form.email) }}
+        {{ wtf.form_field(form.password) }}
+        <button type="submit" class="btn btn-default">Login</button>
+        <p> <a href="/forgot_password"> Forgot Password? </a> </p>
+
+    </form>
+</div>
+{% endblock %}
